@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const quizSchema = new mongoose.Schema({
   questions: [{ question: String, answers: [String], correctAnswer: Number }],
   category: String,
+  ownerId: mongoose.SchemaTypes.ObjectId,
 });
 
 // Example usage:

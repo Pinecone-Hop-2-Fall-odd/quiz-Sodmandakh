@@ -10,7 +10,7 @@ export default function SignUp() {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    const { data } = await axios.post("http://localhost:8000/user", {
+    const { data } = await axios.post(`${process.env.BACK_END_URL}/user`, {
       username: SignupData.username,
       email: SignupData.email,
       password: SignupData.password,
@@ -20,7 +20,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="bg-blue-400 h-screen w-screen flex items-center justify-center">
+    <div className="bg-[#e1d7c3] h-screen w-screen flex items-center justify-center">
       <div className="flex">
         <div className="bg-white p-8 rounded shadow-md w-96">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">Sign Up</h2>
@@ -78,7 +78,7 @@ export default function SignUp() {
             </div>
 
             <button
-              className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 flex justify-center"
+              className="w-full bg-[#bfaa8a] text-white p-2 rounded-md hover:bg-[#a58d6f] flex justify-center"
               onClick={handleSubmit}
             >
               Sign Up

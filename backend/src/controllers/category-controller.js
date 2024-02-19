@@ -1,4 +1,5 @@
 import { CategoryModel } from "../models/category-model.js";
+import { QuizModel } from "../models/quiz-model.js";
 
 
 export const getCategory = async (req, res) => {
@@ -45,6 +46,7 @@ export const deleteCategoryAndQuizzes = async (req, res) => {
 
     if (deletedCategory) {
       res.status(200).json({ message: "Category deleted successfully", category: deletedCategory });
+      const deleted = await QuizModel.deleteMany({category : category.category})
     } else {
       res.status(500).json({ message: "Failed to delete category" });
     }

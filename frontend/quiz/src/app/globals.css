@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.ratio{
+  aspect-ratio: 1/0.2;
+}

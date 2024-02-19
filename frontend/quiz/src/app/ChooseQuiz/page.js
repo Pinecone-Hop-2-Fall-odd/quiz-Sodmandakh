@@ -67,7 +67,7 @@
 //               onClick={() => {
 //                 router.push(
 //                   `http://localhost:3000/playQuiz?lesson=${category.category}`
-//                 );  
+//                 );
 //               }}
 //             >
 //               <span className="text-lg">{category.category}</span>
@@ -92,14 +92,13 @@
 //   );
 // }
 
-
-
 "use client";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ChooseQuiz() {
   const router = useRouter();
@@ -108,38 +107,54 @@ export default function ChooseQuiz() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/categories");
+      const response = await axios.get(
+        `${process.env.BACK_END_URL}/categories`
+      );
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
   };
- 
 
   const deleteCategoryAndQuizzes = async (categoryId) => {
     try {
-      await axios.delete(`http://localhost:8000/categories/${categoryId}`);
+      await axios.delete(
+        `${process.env.BACK_END_URL}/categories/${categoryId}`
+      );
 
-      const response = await axios.get(`http://localhost:8000/quizzes?categoryId=${categoryId}`);
-      const quizzes = response.data.quizzes;
-
-      for (const quiz of quizzes) {
-        await axios.delete(`http://localhost:8000/quizzes/${_id}`);
-      }
-
-      const updatedCategories = categories.filter((category) => category._id !== categoryId);
+      const updatedCategories = categories.filter(
+        (category) => category._id !== categoryId
+      );
       setCategories(updatedCategories);
     } catch (error) {
       console.error("Error deleting category and quizzes:", error);
     }
     fetchCategories();
   };
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  
+useEffect(() => {
+    const fetchData = async () => {
+      if (window) {
+        const token = localStorage.getItem("token");
+  
+        if (token === null) {
+          router.push("/login");
+          return;
+        }
+      } 
+    };
 
+    fetchData();
+    fetchCategories();
+  },[]);
   return (
-    <div className="bg-blue-400 h-screen flex flex-col items-center justify-center text-white">
+    <div className="bg-[#e1d7c3] h-screen flex flex-col items-center justify-center text-white relative">
+      <button
+        className="bg-[#bfaa8a] text-white py-4 px-10 rounded-lg absolute top-4 left-4 hover:bg-[#a58d6f]  "
+        onClick={() => router.push("/")}
+      >
+        Back
+      </button>
       <div className="mb-12">
         <h1 className="text-6xl font-bold">Choose a Quiz</h1>
       </div>
@@ -151,16 +166,13 @@ export default function ChooseQuiz() {
             onMouseEnter={() => setHoveredCategory(category._id)}
             onMouseLeave={() => setHoveredCategory(null)}
           >
-            <div
-              className="p-20 h-40 flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 cursor-pointer text-center"
-              onClick={() => {
-                router.push(
-                  `http://localhost:3000/playQuiz?lesson=${category.category}`
-                );  
-              }}
+            <Link
+              href={`/playQuiz?lesson=${category.category}`}
+              className="p-20 h-40 flex items-center justify-center rounded-lg bg-[#bfaa8a] hover:bg-[#a58d6f] cursor-pointer text-center"
+              // onClick={sendQuiz(category)}
             >
               <span className="text-lg">{category.category}</span>
-            </div>
+            </Link>
             {hoveredCategory === category._id && (
               <button
                 className="absolute top-2 right-2 p-2 rounded-full bg-white"

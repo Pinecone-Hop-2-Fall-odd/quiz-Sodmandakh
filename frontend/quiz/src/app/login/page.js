@@ -11,15 +11,14 @@ export default function Login() {
 
   const handleLogin = async () => {
     const response = await axios
-      .post("http://localhost:8000/login", {
+      .post(`${process.env.BACK_END_URL}/login`, {
         email: loginData.email,
         password: loginData.password,
       })
       console.log(response, "RESPONSE")
     if (response?.data?.token) {
       localStorage.setItem("token", response.data.token);
-      router.push("/HomePage");
-      console.log("yuyf")
+      router.push("/");
     }
     else(alert("wrong "))
   };
@@ -28,7 +27,7 @@ export default function Login() {
   }
 
   return (
-    <div className="bg-blue-400 h-screen w-screen flex items-center justify-center">
+    <div className="bg-[#e1d7c3] h-screen w-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">Login</h2>
 
@@ -62,7 +61,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            className="w-full bg-[#bfaa8a] text-white p-2 rounded-md hover:bg-[#a58d6f]"
             onClick={handleLogin}
           >
             Log In

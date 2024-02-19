@@ -6,31 +6,16 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/ChooseQuiz/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/ChooseQuiz/page.js"
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ],
-    "/playQuiz/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/playQuiz/page.js"
-    ],
-    "/HomePage/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/HomePage/page.css",
-      "static/chunks/app/HomePage/page.js"
-    ],
-    "/AddQuiz/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/AddQuiz/page.js"
-    ],
-    "/AddCategory/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/AddCategory/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }

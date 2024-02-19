@@ -59,20 +59,20 @@ export const quizzes = async (req, res) => {
   }
 };
 
-export const deleteQuiz = async (req, res) => {
-  const { id } = req.params;
-  const quiz = await QuizModel.findById(id);
-  console.log(quiz);
-  try {
-    const deletedQuiz = await QuizModel.findOneAndDelete(id);
-    if (deletedQuiz) {
-      res
-        .status(200)
-        .json({ message: "Quiz deleted successfully", quiz: deletedQuiz });
-    } else {
-      res.status(404).json({ message: "Quiz not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+// export const deleteQuiz = async (req, res) => {
+//   const { id } = req.params;
+//   const quiz = await QuizModel.findById(id);
+//   console.log(quiz);
+//   try {
+//     const deletedQuiz = await QuizModel.findOneAndDelete(id);
+//     if (deletedQuiz) {
+//       res
+//         .status(200)
+//         .json({ message: "Quiz deleted successfully", quiz: deletedQuiz });
+//     } else {
+//       res.status(404).json({ message: "Quiz not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };

@@ -165,6 +165,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function AddQuiz() {
   const [questions, setQuestions] = useState([
@@ -179,49 +180,66 @@ export default function AddQuiz() {
   const [index, setIndex] = useState(0);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const router = useRouter();
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/categories");
+        const response = await axios.get(`${process.env.BACK_END_URL}/categories`);
         setCategories(response.data.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
-    fetchCategories();
-  }, []);
 
+    const fetchData = async () => {
+      if (window) {
+        const token = localStorage.getItem("token");
+  
+        if (token === null) {
+          router.push("/login");
+          return;
+        }
+      } 
+    };
+
+    fetchData();
+    fetchCategories();
+  },[]);
+console.log(process.env.BACK_END_URL)
   console.log(questions);
 
   const saveQuiz = async () => {
     try {
-      await axios.post("http://localhost:8000/quiz", {
+      await axios.post(`${process.env.BACK_END_URL}/quiz`, {
         questions,
         category: selectedCategory,
       });
-
+  
       setSaveQuestions([
         ...saveQuestions,
         { questions, category: selectedCategory },
       ]);
+  
       setQuestions([
         {
           question: "",
           options: ["", "", "", ""],
           correctOption: 0,
+          category: "",
         },
       ]);
+  
       setIndex(0);
     } catch (error) {
       console.error("Error saving quiz:", error);
     }
   };
 
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-400">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#e1d7c3]">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h1 className="text-2xl font-bold mb-4 text-black">
           Create a New Quiz
@@ -243,7 +261,7 @@ export default function AddQuiz() {
 
         <div key={index} className="mb-4">
           <label className="block font-semibold mb-2 text-black">{`Question ${
-            index + 1
+            index
           }`}</label>
           <input
             type="text"
@@ -260,23 +278,22 @@ export default function AddQuiz() {
           />
 
           <div className="mt-2">
-            {questions[index].options.map((option, optionIndex) => (
-              <input
-                key={optionIndex}
-                type="text"
-                placeholder={`Option ${optionIndex + 1}`}
-                className="w-full p-2 mt-2 border rounded text-black"
-                value={option.value}
-                onChange={(e) => {
-                  setQuestions((prevQuestions) => {
-                    const updatedQuestions = [...prevQuestions];
-                    updatedQuestions[index].options[optionIndex] =
-                      e.target.value;
-                    return updatedQuestions;
-                  });
-                }}
-              />
-            ))}
+          {questions[index].options.map((option, optionIndex) => (
+  <input
+    key={optionIndex}
+    type="text"
+    placeholder={`Option ${optionIndex + 1}`}
+    className="w-full p-2 mt-2 border rounded text-black"
+    value={option}  
+    onChange={(e) => {
+      setQuestions((prevQuestions) => {
+        const updatedQuestions = [...prevQuestions];
+        updatedQuestions[index].options[optionIndex] = e.target.value;
+        return updatedQuestions;
+      });
+    }}
+  />
+))}
           </div>
 
           <label className="block mt-2 font-semibold text-black">
@@ -302,15 +319,26 @@ export default function AddQuiz() {
         </div>
 
         <div>
-
           <button
-            className="bg-green-500 text-white py-2 px-4 rounded mt-4 hover:bg-green-600"
+            className="bg-[#bfaa8a] text-white py-2 px-4 rounded mt-4 hover:bg-[#a58d6f] mr-4"
             onClick={saveQuiz}
           >
             Save Quiz
+          </button>
+          <button
+            className="bg-[#bfaa8a] text-white py-2 px-4 rounded hover:bg-[#a58d6f]"
+            onClick={() => {
+              router.push("/");
+            }}
+          >
+            back
           </button>
         </div>
       </div>
     </div>
   );
 }
+
+
+
+

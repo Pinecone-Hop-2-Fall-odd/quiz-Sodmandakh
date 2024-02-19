@@ -9,7 +9,7 @@ export default function DropDownProfile() {
 
   useEffect(() => {
     const getToken = localStorage.getItem("token");
-    fetch(`http://localhost:8000/user` , {headers : {"token" : getToken}})
+    fetch(`${process.env.BACK_END_URL}/user` , {headers : {"token" : getToken}})
       .then((response) => response.json())
       .then((res) => setMenuItem(res.user))
       .catch((error) => console.error("Error fetching data:", error));

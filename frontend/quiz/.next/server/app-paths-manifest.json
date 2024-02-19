@@ -1,7 +1,4 @@
 {
-  "/ChooseQuiz/page": "app/ChooseQuiz/page.js",
-  "/playQuiz/page": "app/playQuiz/page.js",
-  "/HomePage/page": "app/HomePage/page.js",
-  "/AddQuiz/page": "app/AddQuiz/page.js",
-  "/AddCategory/page": "app/AddCategory/page.js"
+  "/not-found": "app/not-found.js",
+  "/page": "app/page.js"
 }
